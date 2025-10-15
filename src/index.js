@@ -20,9 +20,11 @@ app.set('trust proxy', true)
 
 const authRoutes = require('./routes/authRoutes')
 const faqRoutes = require('./routes/faqRoutes')
+const categoryBlogRoutes = require('./routes/categoryBlogRoutes')
 
 app.use('/api/auth', authRoutes)
 app.use('/faq', faqRoutes)
+app.use('/category-blog', categoryBlogRoutes)
 
 app.get('/', (req, res) => {
     res.json({
