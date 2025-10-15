@@ -19,8 +19,10 @@ app.use(express.urlencoded({
 app.set('trust proxy', true)
 
 const authRoutes = require('./routes/authRoutes')
+const faqRoutes = require('./routes/faqRoutes')
 
 app.use('/api/auth', authRoutes)
+app.use('/faq', faqRoutes)
 
 app.get('/', (req, res) => {
     res.json({
