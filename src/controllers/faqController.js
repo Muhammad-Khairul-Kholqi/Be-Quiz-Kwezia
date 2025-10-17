@@ -11,7 +11,7 @@ class FaqController {
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data FAQ',
+                message: 'Failed to retrieve FAQ data',
                 error: err.message
             });
         }
@@ -27,7 +27,7 @@ class FaqController {
             if (!faq) {
                 return res.status(404).json({
                     success: false,
-                    message: 'FAQ tidak ditemukan'
+                    message: 'FAQ not found'
                 });
             }
 
@@ -38,7 +38,7 @@ class FaqController {
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data FAQ',
+                message: 'Failed to retrieve FAQ data',
                 error: err.message
             });
         }
@@ -54,14 +54,14 @@ class FaqController {
             if (!question || !question.trim()) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Pertanyaan wajib diisi'
+                    message: 'Question is required'
                 });
             }
 
             if (!answer || !answer.trim()) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Jawaban wajib diisi'
+                    message: 'Answer is required'
                 });
             }
 
@@ -72,13 +72,13 @@ class FaqController {
 
             return res.status(201).json({
                 success: true,
-                message: 'FAQ berhasil ditambahkan',
+                message: 'FAQ added successfully',
                 data: newFaq
             });
         } catch (err) {
             return res.status(500).json({
                 success: false,
-                message: 'Gagal menambahkan FAQ',
+                message: 'Failed to add FAQ',
                 error: err.message
             });
         }
@@ -94,7 +94,7 @@ class FaqController {
             if (!existing) {
                 return res.status(404).json({
                     success: false,
-                    message: 'FAQ tidak ditemukan'
+                    message: 'FAQ not found'
                 });
             }
 
@@ -115,13 +115,13 @@ class FaqController {
 
             res.status(200).json({
                 success: true,
-                message: 'FAQ berhasil diupdate',
+                message: 'FAQ updated successfully',
                 data: updatedFaq
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengupdate FAQ',
+                message: 'Failed to update FAQ',
                 error: err.message
             });
         }
@@ -137,7 +137,7 @@ class FaqController {
             if (!existing) {
                 return res.status(404).json({
                     success: false,
-                    message: 'FAQ tidak ditemukan'
+                    message: 'FAQ not found'
                 });
             }
 
@@ -145,12 +145,12 @@ class FaqController {
 
             res.status(200).json({
                 success: true,
-                message: 'FAQ berhasil dihapus'
+                message: 'FAQ deleted successfully'
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal menghapus FAQ',
+                message: 'Failed to delete FAQ',
                 error: err.message
             });
         }

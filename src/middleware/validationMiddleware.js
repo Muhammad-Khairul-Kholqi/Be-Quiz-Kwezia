@@ -9,28 +9,28 @@ const validationMiddleware = {
         .trim()
         .isLength({
             min: 3,
-            max: 50
+            max: 10
         })
-        .withMessage('Username harus 3-50 karakter')
+        .withMessage('Username must be between 3 and 10 characters')
         .matches(/^[a-zA-Z0-9_]+$/)
-        .withMessage('Username hanya boleh huruf, angka, dan underscore'),
+        .withMessage('Username can only contain letters, numbers, and underscores'),
 
         body('password')
         .isLength({
             min: 6
         })
-        .withMessage('Password minimal 6 karakter'),
+        .withMessage('Password must be at least 6 characters long'),
     ],
 
     loginValidation: [
         body('username')
         .trim()
         .notEmpty()
-        .withMessage('Username wajib diisi'),
+        .withMessage('Username is required'),
 
         body('password')
         .notEmpty()
-        .withMessage('Password wajib diisi')
+        .withMessage('Password is required')
     ],
 
     validate: (req, res, next) => {
@@ -38,7 +38,7 @@ const validationMiddleware = {
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 success: false,
-                message: 'Validasi gagal',
+                message: 'Validation failed',
                 errors: errors.array()
             });
         }

@@ -11,7 +11,7 @@ class CategoryBlogController {
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data Category Blog',
+                message: 'Failed to fetch Blog Category data',
                 error: err.message
             });
         }
@@ -27,7 +27,7 @@ class CategoryBlogController {
             if (!category_blog) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Category Blog tidak ditemukan'
+                    message: 'Category Blog not found'
                 });
             }
 
@@ -38,7 +38,7 @@ class CategoryBlogController {
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data Category Blog',
+                message: 'Failed to fetch Blog Category data',
                 error: err.message
             });
         }
@@ -53,7 +53,7 @@ class CategoryBlogController {
             if (!name || !name.trim()) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Nama wajib diisi'
+                    message: 'Namw is required'
                 });
             }
 
@@ -63,13 +63,13 @@ class CategoryBlogController {
 
             return res.status(201).json({
                 success: true,
-                message: 'Category Blog berhasil ditambahkan',
+                message: 'Category Blog successfully added',
                 data: newCategoryBlog
             });
         } catch (err) {
             return res.status(500).json({
                 success: false,
-                message: 'Gagal menambahkan Category Blog',
+                message: 'Failed to add Blog Category',
                 error: err.message
             });
         }
@@ -85,7 +85,7 @@ class CategoryBlogController {
             if (!existing) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Category Blog tidak ditemukan'
+                    message: 'Category Blog not found'
                 });
             }
 
@@ -102,13 +102,13 @@ class CategoryBlogController {
 
             res.status(200).json({
                 success: true,
-                message: 'Category Blog berhasil diupdate',
+                message: 'Category Blog successfully updated',
                 data: updatedCategoryBlog
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengupdate Category Blog',
+                message: 'Failed to update Blog Category',
                 error: err.message
             });
         }
@@ -124,7 +124,7 @@ class CategoryBlogController {
             if (!existing) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Category Blog tidak ditemukan'
+                    message: 'Category Blog not found'
                 });
             }
 
@@ -132,12 +132,12 @@ class CategoryBlogController {
 
             res.status(200).json({
                 success: true,
-                message: 'Category Blog berhasil dihapus'
+                message: 'Category Blog has been successfully deleted'
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal menghapus Category Blog',
+                message: 'Failed to delete Blog Category',
                 error: err.message
             });
         }

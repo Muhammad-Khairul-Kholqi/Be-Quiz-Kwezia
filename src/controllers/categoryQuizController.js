@@ -11,7 +11,7 @@ class CategoryQuizController {
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data Category Quiz',
+                message: 'Failed to retrieve Category Quiz data',
                 error: err.message
             });
         }
@@ -27,7 +27,7 @@ class CategoryQuizController {
             if (!category_quiz) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Category Quiz tidak ditemukan'
+                    message: 'Category Quiz not found'
                 });
             }
 
@@ -38,7 +38,7 @@ class CategoryQuizController {
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data Category Quiz',
+                message: 'Failed to retrieve Category Quiz data',
                 error: err.message
             });
         }
@@ -47,13 +47,13 @@ class CategoryQuizController {
     static async create(req, res) {
         try {
             const {
-                name,
+                name
             } = req.body;
 
             if (!name || !name.trim()) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Nama wajib diisi'
+                    message: 'Name is required'
                 });
             }
 
@@ -63,13 +63,13 @@ class CategoryQuizController {
 
             return res.status(201).json({
                 success: true,
-                message: 'Category Quiz berhasil ditambahkan',
+                message: 'Category Quiz added successfully',
                 data: newCategoryQuiz
             });
         } catch (err) {
             return res.status(500).json({
                 success: false,
-                message: 'Gagal menambahkan Category Quiz',
+                message: 'Failed to add Category Quiz',
                 error: err.message
             });
         }
@@ -85,12 +85,12 @@ class CategoryQuizController {
             if (!existing) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Category Quiz tidak ditemukan'
+                    message: 'Category Quiz not found'
                 });
             }
 
             const {
-                name,
+                name
             } = req.body;
 
             const updateData = {};
@@ -102,13 +102,13 @@ class CategoryQuizController {
 
             res.status(200).json({
                 success: true,
-                message: 'Category Quiz berhasil diupdate',
+                message: 'Category Quiz updated successfully',
                 data: updatedCategoryQuiz
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengupdate Category Quiz',
+                message: 'Failed to update Category Quiz',
                 error: err.message
             });
         }
@@ -124,7 +124,7 @@ class CategoryQuizController {
             if (!existing) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Category Quiz tidak ditemukan'
+                    message: 'Category Quiz not found'
                 });
             }
 
@@ -132,12 +132,12 @@ class CategoryQuizController {
 
             res.status(200).json({
                 success: true,
-                message: 'Category Quiz berhasil dihapus'
+                message: 'Category Quiz deleted successfully'
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
-                message: 'Gagal menghapus Category Quiz',
+                message: 'Failed to delete Category Quiz',
                 error: err.message
             });
         }

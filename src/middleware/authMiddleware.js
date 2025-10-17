@@ -7,7 +7,7 @@ const authMiddleware = {
         if (!token) {
             return res.status(401).json({
                 success: false,
-                message: 'Token tidak ditemukan'
+                message: 'Token not found'
             });
         }
 
@@ -18,7 +18,7 @@ const authMiddleware = {
         } catch (error) {
             return res.status(401).json({
                 success: false,
-                message: 'Token tidak valid atau expired'
+                message: 'Token is invalid or expired'
             });
         }
     },
@@ -27,7 +27,7 @@ const authMiddleware = {
         if (req.user.role !== 'admin') {
             return res.status(403).json({
                 success: false,
-                message: 'Akses ditolak. Hanya admin yang diizinkan'
+                message: 'Access denied. Admins only'
             });
         }
         next();
@@ -37,7 +37,7 @@ const authMiddleware = {
         if (req.user.role !== 'user') {
             return res.status(403).json({
                 success: false,
-                message: 'Akses ditolak. Hanya user yang diizinkan'
+                message: 'Access denied. Users only'
             });
         }
         next();

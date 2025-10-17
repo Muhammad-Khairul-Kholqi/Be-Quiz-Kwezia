@@ -7,14 +7,14 @@ const authController = {
         try {
             const {
                 username,
-                password,
+                password
             } = req.body;
 
             const existingUser = await userModel.findByUsername(username);
             if (existingUser) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Username sudah digunakan'
+                    message: 'Username is already taken'
                 });
             }
 
@@ -30,7 +30,7 @@ const authController = {
 
             res.status(201).json({
                 success: true,
-                message: 'Registrasi berhasil',
+                message: 'Registration successful',
                 data: newUser
             });
 
@@ -38,7 +38,7 @@ const authController = {
             console.error('Register error:', error);
             res.status(500).json({
                 success: false,
-                message: 'Terjadi kesalahan saat registrasi',
+                message: 'An error occurred during registration',
                 error: error.message
             });
         }
@@ -55,7 +55,7 @@ const authController = {
             if (!user) {
                 return res.status(401).json({
                     success: false,
-                    message: 'Username atau password salah'
+                    message: 'Invalid username or password'
                 });
             }
 
@@ -63,7 +63,7 @@ const authController = {
             if (!isPasswordValid) {
                 return res.status(401).json({
                     success: false,
-                    message: 'Username atau password salah'
+                    message: 'Invalid username or password'
                 });
             }
 
@@ -81,7 +81,7 @@ const authController = {
 
             res.status(200).json({
                 success: true,
-                message: 'Login berhasil',
+                message: 'Login successful',
                 data: {
                     user,
                     token
@@ -92,7 +92,7 @@ const authController = {
             console.error('Login error:', error);
             res.status(500).json({
                 success: false,
-                message: 'Terjadi kesalahan saat login',
+                message: 'An error occurred during login',
                 error: error.message
             });
         }
@@ -109,14 +109,14 @@ const authController = {
             if (!user) {
                 return res.status(401).json({
                     success: false,
-                    message: 'Username atau password salah'
+                    message: 'Invalid username or password'
                 });
             }
 
             if (user.role !== 'admin') {
                 return res.status(403).json({
                     success: false,
-                    message: 'Akses ditolak. Hanya admin yang dapat login disini'
+                    message: 'Access denied. Only admins can log in here'
                 });
             }
 
@@ -124,7 +124,7 @@ const authController = {
             if (!isPasswordValid) {
                 return res.status(401).json({
                     success: false,
-                    message: 'Username atau password salah'
+                    message: 'Invalid username or password'
                 });
             }
 
@@ -142,7 +142,7 @@ const authController = {
 
             res.status(200).json({
                 success: true,
-                message: 'Login admin berhasil',
+                message: 'Admin login successful',
                 data: {
                     user,
                     token
@@ -153,7 +153,7 @@ const authController = {
             console.error('Admin login error:', error);
             res.status(500).json({
                 success: false,
-                message: 'Terjadi kesalahan saat login',
+                message: 'An error occurred during login',
                 error: error.message
             });
         }
@@ -174,7 +174,7 @@ const authController = {
             console.error('Get profile error:', error);
             res.status(500).json({
                 success: false,
-                message: 'Gagal mengambil data profile',
+                message: 'Failed to retrieve profile data',
                 error: error.message
             });
         }
