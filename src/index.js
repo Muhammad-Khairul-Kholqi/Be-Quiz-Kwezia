@@ -26,6 +26,8 @@ const blogRoutes = require('./routes/blogRoutes')
 const quizRoutes = require('./routes/quizRoutes')
 const leaderboardRoutes = require('./routes/leaderboardRoutes')
 const quizAttemptRoutes = require('./routes/quizAttemptRoutes')
+const avatarRoutes = require('./routes/avatarRoutes')
+const userProfileRoutes = require('./routes/userProfileRoutes')
 
 app.use('/api/auth', authRoutes)
 app.use('/faq', faqRoutes)
@@ -35,6 +37,8 @@ app.use('/blog', blogRoutes)
 app.use('/quiz', quizRoutes)
 app.use('/leaderboard', leaderboardRoutes)
 app.use('/attempt', quizAttemptRoutes)
+app.use('/avatars', avatarRoutes)
+app.use('/profile', userProfileRoutes)
 
 app.get('/', (req, res) => {
     res.json({
