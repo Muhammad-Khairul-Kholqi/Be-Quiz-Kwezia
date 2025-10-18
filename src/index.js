@@ -23,12 +23,14 @@ const faqRoutes = require('./routes/faqRoutes')
 const categoryBlogRoutes = require('./routes/categoryBlogRoutes')
 const categoryQuizRoutes = require('./routes/categoryQuizRoutes')
 const blogRoutes = require('./routes/blogRoutes')
+const quizRoutes = require('./routes/quizRoutes')
 
 app.use('/api/auth', authRoutes)
 app.use('/faq', faqRoutes)
 app.use('/category-blog', categoryBlogRoutes)
 app.use('/category-quiz', categoryQuizRoutes)
 app.use('/blog', blogRoutes)
+app.use('/quiz', quizRoutes)
 
 app.get('/', (req, res) => {
     res.json({
