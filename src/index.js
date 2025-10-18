@@ -11,10 +11,10 @@ app.use(cors({
     credentials: true
 }))
 
-app.use(express.json()) 
+app.use(express.json())
 app.use(express.urlencoded({
     extended: true
-})) 
+}))
 
 app.set('trust proxy', true)
 
@@ -22,11 +22,13 @@ const authRoutes = require('./routes/authRoutes')
 const faqRoutes = require('./routes/faqRoutes')
 const categoryBlogRoutes = require('./routes/categoryBlogRoutes')
 const categoryQuizRoutes = require('./routes/categoryQuizRoutes')
+const blogRoutes = require('./routes/blogRoutes')
 
 app.use('/api/auth', authRoutes)
 app.use('/faq', faqRoutes)
 app.use('/category-blog', categoryBlogRoutes)
 app.use('/category-quiz', categoryQuizRoutes)
+app.use('/blog', blogRoutes)
 
 app.get('/', (req, res) => {
     res.json({
