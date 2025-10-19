@@ -81,8 +81,20 @@ class QuizController {
             let {
                 category_id,
                 title,
+                time_limit,
                 questions
             } = req.body;
+
+            let timeLimitNum = 60;
+            if (time_limit !== undefined) {
+                timeLimitNum = parseInt(time_limit);
+                if (isNaN(timeLimitNum) || timeLimitNum < 1 || timeLimitNum > 180) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Time limit must be between 1 and 180 minutes'
+                    });
+                }
+            }
 
             if (!category_id || !title || !title.trim()) {
                 return res.status(400).json({
@@ -174,6 +186,7 @@ class QuizController {
                 category_id,
                 title: title.trim(),
                 total_questions: questions.length,
+                time_limit: timeLimitNum,
                 image_cover: imageCoverUrl,
                 created_by: req.user.id
             });
@@ -228,6 +241,7 @@ class QuizController {
             let {
                 category_id,
                 title,
+                time_limit,
                 questions
             } = req.body;
 
@@ -237,6 +251,16 @@ class QuizController {
                     return res.status(404).json({
                         success: false,
                         message: 'Category not found'
+                    });
+                }
+            }
+
+            if (time_limit !== undefined) {
+                const timeLimitNum = parseInt(time_limit);
+                if (isNaN(timeLimitNum) || timeLimitNum < 1 || timeLimitNum > 180) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Time limit must be between 1 and 180 minutes'
                     });
                 }
             }
@@ -281,6 +305,7 @@ class QuizController {
             const updateData = {};
             if (category_id !== undefined) updateData.category_id = category_id;
             if (title !== undefined) updateData.title = title.trim();
+            if (time_limit !== undefined) updateData.time_limit = parseInt(time_limit);
             if (questions !== undefined) updateData.total_questions = questions.length;
 
             if (req.file) {

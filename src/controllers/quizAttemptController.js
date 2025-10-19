@@ -35,9 +35,11 @@ class QuizAttemptController {
                     id: quiz.id,
                     title: quiz.title,
                     total_questions: quiz.total_questions,
+                    time_limit: quiz.time_limit, 
                     image_cover: quiz.image_cover,
                     category_quiz: quiz.category_quiz,
-                    questions: questionsWithoutAnswers
+                    questions: questionsWithoutAnswers,
+                    started_at: new Date().toISOString() 
                 }
             });
         } catch (err) {
@@ -55,7 +57,8 @@ class QuizAttemptController {
                 quizId
             } = req.params;
             const {
-                answers
+                answers,
+                started_at
             } = req.body;
             const userId = req.user.id;
 
@@ -66,11 +69,31 @@ class QuizAttemptController {
                 });
             }
 
+            if (!started_at) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Started timestamp is required'
+                });
+            }
+
             const quiz = await QuizModel.getById(quizId);
             if (!quiz) {
                 return res.status(404).json({
                     success: false,
                     message: 'Quiz not found'
+                });
+            }
+
+            const startTime = new Date(started_at);
+            const submitTime = new Date();
+            const elapsedMinutes = (submitTime - startTime) / 1000 / 60;
+
+            if (elapsedMinutes > quiz.time_limit) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Time limit exceeded! Quiz must be completed within ${quiz.time_limit} minutes. You took ${Math.ceil(elapsedMinutes)} minutes.`,
+                    time_limit: quiz.time_limit,
+                    time_taken: Math.ceil(elapsedMinutes)
                 });
             }
 
@@ -123,7 +146,8 @@ class QuizAttemptController {
                 quiz_id: quizId,
                 score: score,
                 total_correct: totalCorrect,
-                is_perfect: isPerfect
+                is_perfect: isPerfect,
+                started_at: startTime
             });
 
             const currentStats = await QuizAttemptModel.getUserStats(userId);
@@ -170,6 +194,8 @@ class QuizAttemptController {
                     total_questions: quiz.total_questions,
                     is_perfect: isPerfect,
                     points_earned: pointsEarned,
+                    time_taken: Math.ceil(elapsedMinutes),
+                    time_limit: quiz.time_limit,
                     results: results,
                     updated_stats: updatedStats
                 }

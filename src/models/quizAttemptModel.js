@@ -6,7 +6,8 @@ class QuizAttemptModel {
         quiz_id,
         score,
         total_correct,
-        is_perfect
+        is_perfect,
+        started_at
     }) {
         const {
             data,
@@ -18,7 +19,8 @@ class QuizAttemptModel {
                 quiz_id,
                 score,
                 total_correct,
-                is_perfect
+                is_perfect,
+                started_at
             }])
             .select()
             .single();

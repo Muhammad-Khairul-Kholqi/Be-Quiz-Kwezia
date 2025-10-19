@@ -3,7 +3,6 @@ const supabase = require('../config/supabase');
 const fs = require('fs');
 
 class AvatarController {
-    // Get all avatars (Admin only - includes inactive)
     static async getAll(req, res) {
         try {
             const avatars = await AvatarModel.getAll();
@@ -20,7 +19,6 @@ class AvatarController {
         }
     }
 
-    // Get active avatars (Public - for users to choose)
     static async getActive(req, res) {
         try {
             const avatars = await AvatarModel.getActive();
@@ -37,7 +35,6 @@ class AvatarController {
         }
     }
 
-    // Get avatar by ID
     static async getById(req, res) {
         try {
             const {
@@ -65,14 +62,12 @@ class AvatarController {
         }
     }
 
-    // Create avatar (Admin only)
     static async create(req, res) {
         try {
             const {
                 name
             } = req.body;
 
-            // Validation
             if (!name || !name.trim()) {
                 return res.status(400).json({
                     success: false,
@@ -87,7 +82,6 @@ class AvatarController {
                 });
             }
 
-            // Upload image to Supabase Storage
             const file = req.file;
             const fileExt = file.originalname.split('.').pop();
             const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
@@ -102,7 +96,6 @@ class AvatarController {
                     upsert: false
                 });
 
-            // Delete temporary file
             fs.unlinkSync(file.path);
 
             if (uploadError) {
@@ -113,14 +106,12 @@ class AvatarController {
                 });
             }
 
-            // Get public URL
             const {
                 data: urlData
             } = supabase.storage
                 .from('avatar-image')
                 .getPublicUrl(fileName);
 
-            // Create avatar record
             const newAvatar = await AvatarModel.create({
                 name: name.trim(),
                 image_url: urlData.publicUrl,
@@ -133,7 +124,6 @@ class AvatarController {
                 data: newAvatar
             });
         } catch (err) {
-            // Delete uploaded file if exists
             if (req.file && fs.existsSync(req.file.path)) {
                 fs.unlinkSync(req.file.path);
             }
@@ -146,7 +136,6 @@ class AvatarController {
         }
     }
 
-    // Update avatar (Admin only)
     static async update(req, res) {
         try {
             const {
@@ -169,11 +158,9 @@ class AvatarController {
             const updateData = {};
             if (name !== undefined) updateData.name = name.trim();
             if (is_active !== undefined) {
-                // Parse is_active (handle string from form-data)
                 updateData.is_active = is_active === 'true' || is_active === true;
             }
 
-            // Update avatar image if new file provided
             if (req.file) {
                 const file = req.file;
                 const fileExt = file.originalname.split('.').pop();
@@ -199,7 +186,6 @@ class AvatarController {
                     });
                 }
 
-                // Delete old image
                 if (existing.image_url) {
                     const oldFileName = existing.image_url.split('/').pop();
                     await supabase.storage
@@ -215,7 +201,6 @@ class AvatarController {
 
                 updateData.image_url = urlData.publicUrl;
 
-                // Update avatar in database with new image
                 const {
                     data,
                     error
@@ -235,7 +220,6 @@ class AvatarController {
                 });
             }
 
-            // Update without image
             const updatedAvatar = await AvatarModel.update(id, updateData);
 
             res.status(200).json({
@@ -256,7 +240,6 @@ class AvatarController {
         }
     }
 
-    // Delete avatar (Admin only)
     static async delete(req, res) {
         try {
             const {
@@ -271,7 +254,6 @@ class AvatarController {
                 });
             }
 
-            // Check if avatar is being used by any user
             const isInUse = await AvatarModel.checkAvatarInUse(id);
             if (isInUse) {
                 return res.status(400).json({
@@ -280,7 +262,6 @@ class AvatarController {
                 });
             }
 
-            // Delete image from storage
             if (existing.image_url) {
                 const fileName = existing.image_url.split('/').pop();
                 await supabase.storage
@@ -288,7 +269,6 @@ class AvatarController {
                     .remove([fileName]);
             }
 
-            // Delete avatar record
             await AvatarModel.delete(id);
 
             res.status(200).json({

@@ -95,6 +95,7 @@ class QuizModel {
         category_id,
         title,
         total_questions,
+        time_limit,
         image_cover,
         created_by
     }) {
@@ -107,6 +108,7 @@ class QuizModel {
                 category_id,
                 title,
                 total_questions,
+                time_limit,
                 image_cover,
                 created_by
             }])
@@ -121,12 +123,14 @@ class QuizModel {
         category_id,
         title,
         total_questions,
+        time_limit,
         image_cover
     }) {
         const updateData = {};
         if (category_id !== undefined) updateData.category_id = category_id;
         if (title !== undefined) updateData.title = title;
         if (total_questions !== undefined) updateData.total_questions = total_questions;
+        if (time_limit !== undefined) updateData.time_limit = time_limit;
         if (image_cover !== undefined) updateData.image_cover = image_cover;
 
         const {
