@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const authMiddleware = require('../middleware/authMiddleware');
 const validationMiddleware = require('../middleware/validationMiddleware');
 
 router.post(
@@ -25,10 +24,5 @@ router.post(
     authController.adminLogin
 );
 
-router.get(
-    '/profile',
-    authMiddleware.verifyToken,
-    authController.getProfile
-);
 
 module.exports = router;

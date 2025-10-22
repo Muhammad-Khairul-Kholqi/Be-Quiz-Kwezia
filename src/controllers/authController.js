@@ -157,27 +157,6 @@ const authController = {
                 error: error.message
             });
         }
-    },
-
-    getProfile: async (req, res) => {
-        try {
-            const user = await userModel.findById(req.user.id);
-
-            delete user.password;
-
-            res.status(200).json({
-                success: true,
-                data: user
-            });
-
-        } catch (error) {
-            console.error('Get profile error:', error);
-            res.status(500).json({
-                success: false,
-                message: 'Failed to retrieve profile data',
-                error: error.message
-            });
-        }
     }
 };
 
