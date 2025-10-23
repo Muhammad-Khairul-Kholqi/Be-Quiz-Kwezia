@@ -10,6 +10,11 @@ router.get('/me',
     UserProfileController.getProfile
 );
 
+router.put('/me',
+    authMiddleware.verifyToken,
+    UserProfileController.updateProfile
+);
+
 router.put('/avatar',
     authMiddleware.verifyToken,
     UserProfileController.updateAvatar

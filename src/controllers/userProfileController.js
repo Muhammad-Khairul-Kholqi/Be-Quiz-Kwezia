@@ -1,5 +1,6 @@
 const userModel = require('../models/userModel');
 const AvatarModel = require('../models/avatarModel');
+const LeaderboardModel = require('../models/leaderboardModel');
 
 class UserProfileController {
     static async getProfile(req, res) {
@@ -31,14 +32,91 @@ class UserProfileController {
 
             if (error) throw error;
 
+            const userRankData = await LeaderboardModel.getUserRank(userId);
+            const rank = userRankData ? userRankData.rank : null;
+
             res.status(200).json({
                 success: true,
-                data: data
+                data: {
+                    ...data,
+                    rank
+                }
             });
         } catch (err) {
             res.status(500).json({
                 success: false,
                 message: 'Failed to retrieve profile data',
+                error: err.message
+            });
+        }
+    }
+
+    static async updateProfile(req, res) {
+        try {
+            const userId = req.user.id;
+            const {
+                username
+            } = req.body;
+
+            if (!username || username.trim() === '') {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Username is required'
+                });
+            }
+
+            const existingUser = await userModel.findByUsername(username);
+            if (existingUser && existingUser.id !== userId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Username already taken'
+                });
+            }
+
+            await userModel.update(userId, {
+                username: username.trim()
+            });
+
+            const {
+                data,
+                error
+            } = await require('../config/supabase')
+                .from('users')
+                .select(`
+                id,
+                username,
+                role,
+                total_points,
+                total_quiz_completed,
+                total_perfect_attempts,
+                created_at,
+                avatars:avatar_id (
+                    id,
+                    name,
+                    image_url,
+                    is_active
+                )
+            `)
+                .eq('id', userId)
+                .single();
+
+            if (error) throw error;
+
+            const userRankData = await LeaderboardModel.getUserRank(userId);
+            const rank = userRankData ? userRankData.rank : null;
+
+            res.status(200).json({
+                success: true,
+                message: 'Profile successfully updated',
+                data: {
+                    ...data,
+                    rank
+                }
+            });
+        } catch (err) {
+            res.status(500).json({
+                success: false,
+                message: 'Failed to update profile',
                 error: err.message
             });
         }
@@ -73,7 +151,7 @@ class UserProfileController {
                 });
             }
 
-            const updatedUser = await userModel.update(userId, {
+            await userModel.update(userId, {
                 avatar_id: avatar_id
             });
 
@@ -102,10 +180,16 @@ class UserProfileController {
 
             if (error) throw error;
 
+            const userRankData = await LeaderboardModel.getUserRank(userId);
+            const rank = userRankData ? userRankData.rank : null;
+
             res.status(200).json({
                 success: true,
                 message: 'Avatar successfully updated',
-                data: data
+                data: {
+                    ...data,
+                    rank
+                }
             });
         } catch (err) {
             res.status(500).json({
@@ -149,10 +233,16 @@ class UserProfileController {
 
             if (error) throw error;
 
+            const userRankData = await LeaderboardModel.getUserRank(userId);
+            const rank = userRankData ? userRankData.rank : null;
+
             res.status(200).json({
                 success: true,
                 message: 'Avatar successfully removed',
-                data: data
+                data: {
+                    ...data,
+                    rank
+                }
             });
         } catch (err) {
             res.status(500).json({
@@ -199,9 +289,15 @@ class UserProfileController {
                 });
             }
 
+            const userRankData = await LeaderboardModel.getUserRank(userId);
+            const rank = userRankData ? userRankData.rank : null;
+
             res.status(200).json({
                 success: true,
-                data: data
+                data: {
+                    ...data,
+                    rank
+                }
             });
         } catch (err) {
             res.status(500).json({
