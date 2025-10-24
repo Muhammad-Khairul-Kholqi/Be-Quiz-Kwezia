@@ -19,6 +19,7 @@ app.use(express.urlencoded({
 app.set('trust proxy', true)
 
 const authRoutes = require('./routes/authRoutes')
+const adminRoutes = require('./routes/adminRoutes');
 const faqRoutes = require('./routes/faqRoutes')
 const categoryBlogRoutes = require('./routes/categoryBlogRoutes')
 const categoryQuizRoutes = require('./routes/categoryQuizRoutes')
@@ -31,6 +32,7 @@ const userProfileRoutes = require('./routes/userProfileRoutes')
 const contactRoutes = require('./routes/contactRoutes')
 
 app.use('/api/auth', authRoutes)
+app.use('/api/admin/users', adminRoutes);
 app.use('/faq', faqRoutes)
 app.use('/category-blog', categoryBlogRoutes)
 app.use('/category-quiz', categoryQuizRoutes)
