@@ -29,13 +29,13 @@ router.get('/:id',
     ContactController.getById
 );
 
-router.patch('/:id/read',
+router.put('/:id/read',
     authMiddleware.verifyToken,
     authMiddleware.isAdmin,
     ContactController.markAsRead
 );
 
-router.patch('/:id/unread',
+router.put('/:id/unread',
     authMiddleware.verifyToken,
     authMiddleware.isAdmin,
     ContactController.markAsUnread
