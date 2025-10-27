@@ -14,12 +14,14 @@ class LeaderboardModel {
                 total_quiz_completed,
                 total_perfect_attempts,
                 created_at,
+                role,
                 avatars:avatar_id (
                     id,
                     name,
                     image_url
                 )
             `)
+            .neq('role', 'admin') 
             .order('total_points', {
                 ascending: false
             })
@@ -52,6 +54,7 @@ class LeaderboardModel {
                 total_quiz_completed,
                 total_perfect_attempts,
                 created_at,
+                role,
                 avatars:avatar_id (
                     id,
                     name,
@@ -64,6 +67,10 @@ class LeaderboardModel {
         if (userError) throw userError;
         if (!userData) return null;
 
+        if (userData.role === 'admin') {
+            return null;
+        }
+
         const {
             count,
             error: countError
@@ -73,6 +80,7 @@ class LeaderboardModel {
                 count: 'exact',
                 head: true
             })
+            .neq('role', 'admin') 
             .gt('total_points', userData.total_points);
 
         if (countError) throw countError;
@@ -87,6 +95,14 @@ class LeaderboardModel {
         const topUsers = await this.getTopUsers(topLimit);
 
         const userRank = await this.getUserRank(userId);
+
+        if (!userRank) {
+            return {
+                top_users: topUsers,
+                current_user: null,
+                is_in_top: false
+            };
+        }
 
         const isInTop = topUsers.some(u => u.id === userId);
 
