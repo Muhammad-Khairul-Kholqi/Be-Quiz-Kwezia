@@ -1,6 +1,5 @@
 const QuizAttemptModel = require('../models/quizAttemptModel');
 const QuizModel = require('../models/quizModel');
-const QuizQuestionModel = require('../models/quizQuestionModel');
 const userModel = require('../models/userModel');
 const supabase = require('../config/supabase');
 

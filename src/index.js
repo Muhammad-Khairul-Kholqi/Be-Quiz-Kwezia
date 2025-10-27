@@ -30,6 +30,7 @@ const quizAttemptRoutes = require('./routes/quizAttemptRoutes')
 const avatarRoutes = require('./routes/avatarRoutes')
 const userProfileRoutes = require('./routes/userProfileRoutes')
 const contactRoutes = require('./routes/contactRoutes')
+const statsRoutes = require('./routes/statsRoutes');
 
 app.use('/api/auth', authRoutes)
 app.use('/api/admin/users', adminRoutes);
@@ -43,6 +44,7 @@ app.use('/attempt', quizAttemptRoutes)
 app.use('/avatars', avatarRoutes)
 app.use('/profile', userProfileRoutes)
 app.use('/contact', contactRoutes)
+app.use('/stats', statsRoutes);
 
 app.get('/', (req, res) => {
     res.json({
